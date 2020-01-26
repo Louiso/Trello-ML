@@ -27,16 +27,16 @@ class Home extends React.Component {
       return
     }
 
-    const start = this.state.columns[source.droppableId]
-    const finish = this.state.columns[destination.droppableId]
+    const startColumn = this.state.columns[source.droppableId]
+    const finishColumn = this.state.columns[destination.droppableId]
 
-    if (start === finish) {
-      const newTaskIds = Array.from(start.taskIds)
-      newTaskIds.splice(source.index, 1)
-      newTaskIds.splice(destination.index, 0, draggableId)
+    if (startColumn === finishColumn) { // el elemento se movio en la misma columna
+      const newTaskIds = Array.from(startColumn.taskIds)
+      newTaskIds.splice(source.index, 1) // eliminar
+      newTaskIds.splice(destination.index, 0, draggableId) // insertar
 
       const newColumn = {
-        ...start,
+        ...startColumn,
         taskIds: newTaskIds
       }
 
@@ -48,22 +48,23 @@ class Home extends React.Component {
         }
       }
 
+      console.log("TCL: Home -> newState", newState)
       this.setState(newState)
       return
     }
 
     // Moving from one list to another
-    const startTaskIds = Array.from(start.taskIds)
+    const startTaskIds = Array.from(startColumn.taskIds)
     startTaskIds.splice(source.index, 1)
     const newStart = {
-      ...start,
+      ...startColumn,
       taskIds: startTaskIds
     }
 
-    const finishTaskIds = Array.from(finish.taskIds)
+    const finishTaskIds = Array.from(finishColumn.taskIds)
     finishTaskIds.splice(destination.index, 0, draggableId)
     const newFinish = {
-      ...finish,
+      ...finishColumn,
       taskIds: finishTaskIds
     }
 
