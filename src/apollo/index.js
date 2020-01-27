@@ -1,22 +1,20 @@
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { data } from './data';
 
 const cache = new InMemoryCache();
 const client = new ApolloClient({
   cache,
-  resolvers: { /* ... */ },
+  resolvers: {
+
+  },
 });
 
 cache.writeData({
-  data: {
-    todos: [],
-    visibilityFilter: 'SHOW_ALL',
-    networkStatus: {
-      __typename: 'NetworkStatus',
-      isConnected: false,
-    },
-  },
+  data,
 });
+
+window.cache = cache.optimisticData.data
 
 export {
   client
